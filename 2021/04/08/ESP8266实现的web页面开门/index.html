@@ -14,7 +14,7 @@
 <meta property="og:description" content="实现思路为什么直接使用 esp8266esp8266 是一种 WiFi 模块，原来可以同过 AT 指令建立 TCP 连接进行远程操作。但是这样导致需要另外的 51 或者 32 单片机进行 IO 控制，esp8266 本身也是一块单片机，直接使用 esp8266 的 IO 口无疑是方便很多了。 esp8266 的实现注册 WiFi 连接事件，在 WiFi 连接是获取客户端的 mac 地址，将 WiF">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-04-08T06:02:13.000Z">
-<meta property="article:modified_time" content="2021-04-08T06:02:39.612Z">
+<meta property="article:modified_time" content="2021-04-08T06:10:49.668Z">
 <meta property="article:author" content="anqsl">
 <meta name="twitter:card" content="summary">
   
@@ -97,16 +97,18 @@
       
         <h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><h2 id="为什么直接使用-esp8266"><a href="#为什么直接使用-esp8266" class="headerlink" title="为什么直接使用 esp8266"></a>为什么直接使用 esp8266</h2><p>esp8266 是一种 WiFi 模块，原来可以同过 AT 指令建立 TCP 连接进行远程操作。但是这样导致需要另外的 51 或者 32 单片机进行 IO 控制，esp8266 本身也是一块单片机，直接使用 esp8266 的 IO 口无疑是方便很多了。</p>
 <h2 id="esp8266-的实现"><a href="#esp8266-的实现" class="headerlink" title="esp8266 的实现"></a>esp8266 的实现</h2><p>注册 WiFi 连接事件，在 WiFi 连接是获取客户端的 mac 地址，将 WiFi 的连接数目设置为一，防止 mac 被新的 mac 覆盖，定义一个常量为你允许能开门的 mac 地址用户。</p>
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="WIFI-设置"><a href="#WIFI-设置" class="headerlink" title="WIFI 设置"></a>WIFI 设置</h2><p>WiFi.mode(WIFI_AP);//设置为 AP 模式<br>WiFi.softAPConfig(IP,IP,IPAddress(255,255,255,0));<br>WiFi.softAP(ssid,password,1,0,1);//配置 wifi 名字和密码设置信道为 1，不隐藏 SSID,连接数目为 1</p>
-<h2 id="WIF-连接事件"><a href="#WIF-连接事件" class="headerlink" title="WIF 连接事件"></a>WIF 连接事件</h2><p>WiFi.onSoftAPModeStationConnected(&amp;onStationConnected);<br>void onStationConnected(const WiFiEventSoftAPModeStationConnected&amp; evt) {</p>
-<p>Mac=macToString(evt.mac);//获取连接的 mac 地址<br>}</p>
-<h2 id="域名设置"><a href="#域名设置" class="headerlink" title="域名设置"></a>域名设置</h2><p>dnsserver.setTTL(300);//设置超时<br>dnsserver.setErrorReplyCode(DNSReplyCode::ServerFailure);<br>dnsserver.start(DNS_Port,”<a target="_blank" rel="noopener" href="http://www.sixgod.com&quot;,ip);//%E8%AE%BE%E7%BD%AE%E5%9F%9F%E5%90%8DIP%E4%B8%BAesp8266%E7%9A%84IP%E5%9C%B0%E5%9D%80">www.sixgod.com&quot;,IP);//设置域名IP为esp8266的IP地址</a></p>
-<h2 id="web-服务器"><a href="#web-服务器" class="headerlink" title="web 服务器"></a>web 服务器</h2><p>webserver.on(“/3220”,<a href=""></a>//设置 webrequest 请求后处理事件<br>{<br>if(check_root())//判断是否为允许用户<br>{<br>setopen();<br>webserver.send(200,”text/html”,html);//发送 html 文件给客户端<br>//执行开门指令<br>myservo.write(90);<br>delay(1500);<br>myservo.write(0);<br>}<br>else<br>{<br>//返回 404<br>webserver.send(404,”text/plain”,”404”);<br>}<br>});<br>webserver.begin();//开启服务器`</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="WIFI-设置"><a href="#WIFI-设置" class="headerlink" title="WIFI 设置"></a>WIFI 设置</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WiFi.<span class="built_in">mode</span>(WIFI_AP);<span class="comment">//设置为 AP 模式</span></span><br><span class="line">WiFi.<span class="built_in">softAPConfig</span>(IP,IP,<span class="built_in">IPAddress</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0</span>));</span><br><span class="line">WiFi.<span class="built_in">softAP</span>(ssid,password,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>);<span class="comment">//配置 wifi 名字和密码设置信道为 1，不隐藏 SSID,连接数目为 1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="WIF-连接事件"><a href="#WIF-连接事件" class="headerlink" title="WIF 连接事件"></a>WIF 连接事件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WiFi.<span class="built_in">onSoftAPModeStationConnected</span>(&amp;onStationConnected);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">onStationConnected</span><span class="params">(<span class="keyword">const</span> WiFiEventSoftAPModeStationConnected&amp; evt)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">Mac=<span class="built_in">macToString</span>(evt.mac);<span class="comment">//获取连接的 mac 地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="域名设置"><a href="#域名设置" class="headerlink" title="域名设置"></a>域名设置</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dnsserver.<span class="built_in">setTTL</span>(<span class="number">300</span>);<span class="comment">//设置超时</span></span><br><span class="line">dnsserver.<span class="built_in">setErrorReplyCode</span>(DNSReplyCode::ServerFailure);</span><br><span class="line">dnsserver.<span class="built_in">start</span>(DNS_Port,<span class="string">&quot;www.sixgod.com&quot;</span>,IP);<span class="comment">//设置域名IP为esp8266的IP地址</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="web-服务器"><a href="#web-服务器" class="headerlink" title="web 服务器"></a>web 服务器</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">webserver.<span class="built_in">on</span>(<span class="string">&quot;/3220&quot;</span>,[]()<span class="comment">//设置 webrequest 请求后处理事件</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">check_root</span>())<span class="comment">//判断是否为允许用户</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">setopen</span>();</span><br><span class="line">webserver.<span class="built_in">send</span>(<span class="number">200</span>,<span class="string">&quot;text/html&quot;</span>,html);<span class="comment">//发送 html 文件给客户端</span></span><br><span class="line"><span class="comment">//执行开门指令</span></span><br><span class="line">myservo.<span class="built_in">write</span>(<span class="number">90</span>);</span><br><span class="line"><span class="built_in">delay</span>(<span class="number">1500</span>);</span><br><span class="line">myservo.<span class="built_in">write</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//返回 404</span></span><br><span class="line">webserver.<span class="built_in">send</span>(<span class="number">404</span>,<span class="string">&quot;text/plain&quot;</span>,<span class="string">&quot;404&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">webserver.<span class="built_in">begin</span>();<span class="comment">//开启服务器`</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8hbmqo00028cg8gj20fhx0" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8hjr0i0002qvg8fawff2zn" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
       
       
       
@@ -125,11 +127,6 @@
       </div>
     </a>
   
-  
-    <a href="/2021/04/08/Vscode%E9%85%8D%E7%BD%AEC-C-%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Vscode配置C/C++编译环境</div>
-    </a>
   
 </nav>
 
@@ -166,19 +163,23 @@
       <ul>
         
           <li>
+            <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/">在platformio使用esp32-camera库</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/">QML绘画曲线图</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/">Ubuntu+vscode+openocd+arm-none-eadi</a>
+          </li>
+        
+          <li>
             <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
           </li>
         
           <li>
             <a href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/">ESP8266之HTTP请求</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/">ESP8266实现的web页面开门</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/08/Vscode%E9%85%8D%E7%BD%AEC-C-%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/">Vscode配置C/C++编译环境</a>
           </li>
         
       </ul>
