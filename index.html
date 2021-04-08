@@ -73,6 +73,101 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ESP32-VScode简单环境搭建（window" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:07:33.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>首先下载 git 2.21.0 版本：<a target="_blank" rel="noopener" href="https://npm.taobao.org/mirrors/git-for-windows/">https://npm.taobao.org/mirrors/git-for-windows/</a><br>然后下载 ESP-IDF 工具安装器：<a target="_blank" rel="noopener" href="https://dl.espressif.com/dl/esp-idf-tools-setup-2.3.exe">https://dl.espressif.com/dl/esp-idf-tools-setup-2.3.exe</a></p>
+<h1 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h1><p>安装页面弹出后一直点击 next<br>选择安装的目录<br><img src="https://img-blog.csdnimg.cn/20200730171158661.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="选择安装的目录"><br>一直点击 next 直到安装</p>
+<h1 id="安装-ESP-IDF-工具安装器"><a href="#安装-ESP-IDF-工具安装器" class="headerlink" title="安装 ESP-IDF 工具安装器"></a>安装 ESP-IDF 工具安装器</h1><p>1.同意这个协议<br><img src="https://img-blog.csdnimg.cn/20200730171512179.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 2.如果安装了 python 则选择安装的 python，如果没有安装则就安装 python3.7<br><img src="https://img-blog.csdnimg.cn/20200730171756107.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 3.选择刚刚安装 git 的路径<br><img src="https://img-blog.csdnimg.cn/20200730172222152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 4.选择下载 esp-idf<br><img src="https://img-blog.csdnimg.cn/20200730172333186.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 5.选择 esp-idf 下载版本和下载的路径<br><img src="https://img-blog.csdnimg.cn/20200730172418937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 6.选择 ESP-IDF Tools 安装的路径<br><img src="https://img-blog.csdnimg.cn/20200730172523467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 7.然后一直点击 next 知道 install</p>
+<h1 id="vscode-配置"><a href="#vscode-配置" class="headerlink" title="vscode 配置"></a>vscode 配置</h1><p>1.下载安装 espressif idf 工具<br><img src="https://img-blog.csdnimg.cn/20200730172812261.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 2.<br><img src="https://img-blog.csdnimg.cn/2020073017290414.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 3.自动选择安装的 python 路径<br><img src="https://img-blog.csdnimg.cn/2020073017300993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4 选择 ESP-IDF Tools 下载的 esp-idf<br><img src="https://img-blog.csdnimg.cn/20200730173114842.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200730173215496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 5.<img src="https://img-blog.csdnimg.cn/20200730173247381.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 6.点击下载<img src="https://img-blog.csdnimg.cn/20200730173616247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>点击 get to next step<br><img src="https://img-blog.csdnimg.cn/20200730175339556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 7.<img src="https://img-blog.csdnimg.cn/2020073017555696.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200730175625205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>git 如果不想下载也可以同过 esp-idf tools 一起下载，只是速度较慢。其实也同过 vscode 的 espressif 工具一起下载，只是下载速度有点感人</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" data-id="ckn8hbmqg00008cg82rcz0bkn" data-title="ESP32+VScode简单环境搭建（window" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ESP8266之HTTP请求" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:05:50.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/">ESP8266之HTTP请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>HTTP 需要引用两个头文件：ESP8266Client.h，ESP8266HTTPClient.h。<br>ESP8266 根据网上的 API 使用 HTTP 请求来获取自己想要的信息，例如天气、阿里云的人工智能。</p>
+<h1 id="GET-请求"><a href="#GET-请求" class="headerlink" title="GET 请求"></a>GET 请求</h1><p>定义 WIFI 客户端和 HTTP 客户端，将将 HTTP 客户端开启</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WiFiClient client;<span class="comment">//定义WiFi客户端</span></span><br><span class="line">HTTPClient http;<span class="comment">//定义HTTP客户端</span></span><br><span class="line"><span class="comment">//第一个参数为WiFi客户端，第二个传输为请求的网址</span></span><br><span class="line">http.<span class="built_in">begin</span>(client, <span class="string">&quot;http://www.xbiquge.la/&quot;</span>))<span class="comment">//开启HTTP客户端，</span></span><br></pre></td></tr></table></figure>
+
+<p>根据返回的状态码确定是否请求成功,然后获取返回的数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> code=http.<span class="built_in">GET</span>();</span><br><span class="line"><span class="keyword">if</span>(code==HTPP_CODE_OK)<span class="comment">//请求成功</span></span><br><span class="line">&#123;</span><br><span class="line">	String html=http.<span class="built_in">getString</span>();<span class="comment">//获取网址返回的数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span><span class="comment">//请求失败</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line">http.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
+
+<h1 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a>POST 请求</h1><p>定义 WIFI 客户端和 HTTP 客户端，将将 HTTP 客户端开启，并且添加请求头</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WiFiClient client;<span class="comment">//定义WiFi客户端</span></span><br><span class="line">HTTPClient http;<span class="comment">//定义HTTP客户端</span></span><br><span class="line"><span class="comment">//第一个参数为WiFi客户端，第二个传输为请求的网址</span></span><br><span class="line">http.<span class="built_in">begin</span>(client, <span class="string">&quot;&quot;</span>))<span class="comment">//开启HTTP客户端，</span></span><br><span class="line">http.<span class="built_in">addHeader</span>(<span class="string">&quot;&quot;</span>Content-Type<span class="string">&quot;, &quot;</span>text/html<span class="string">&quot;&quot;</span>);<span class="comment">//添加请求头</span></span><br></pre></td></tr></table></figure>
+
+<p>根据返回的状态码确定是否请求成功,然后获取返回的数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> code=http.<span class="built_in">POST</span>(<span class="string">&quot;&quot;</span>);<span class="comment">//上传的数据</span></span><br><span class="line"><span class="keyword">if</span>(code==HTPP_CODE_OK)<span class="comment">//请求成功</span></span><br><span class="line">&#123;</span><br><span class="line">	String html=http.<span class="built_in">getString</span>();<span class="comment">//获取网址返回的数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span><span class="comment">//请求失败</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line">http.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
+
+<p>POST 请求请求头必须有，GET 请求可以不需要</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/" data-id="ckn8hbmqm00018cg84yt08snw" data-title="ESP8266之HTTP请求" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-ESP8266实现的web页面开门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" class="article-date">
@@ -106,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8h4tv40000umg89kzzhcdn" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8hbmqo00028cg8gj20fhx0" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
       
       
       
@@ -144,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/Vscode%E9%85%8D%E7%BD%AEC-C-%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/" data-id="ckn8h4tva0001umg8f3ly6p3o" data-title="Vscode配置C/C++编译环境" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/Vscode%E9%85%8D%E7%BD%AEC-C-%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/" data-id="ckn8hbmqp00038cg8auk60wiw" data-title="Vscode配置C/C++编译环境" class="article-share-link">Share</a>
       
       
       
@@ -185,6 +280,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/">ESP8266之HTTP请求</a>
+          </li>
         
           <li>
             <a href="/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/">ESP8266实现的web页面开门</a>
