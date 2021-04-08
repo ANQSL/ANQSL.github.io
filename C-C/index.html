@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>在platformio使用esp32-camera库 | 似真似假</title>
+  <title>C/C++ | 似真似假</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="获取 esp32-camera创建好的 ESP32 的工程后，进入工程的 lib 文件夹首先初始化 git：在控制台中执行 git init然后使用 git 命令获取 esp32-camera 1git submodule add -b master https:&#x2F;&#x2F;github.com&#x2F;espressif&#x2F;esp32-camera.git  编译工程首先在 platformio.ini 文件中添">
-<meta property="og:type" content="article">
-<meta property="og:title" content="在platformio使用esp32-camera库">
-<meta property="og:url" content="http://anqsl.github.io/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/index.html">
+  <meta name="description" content="anqsl的个人网站">
+<meta property="og:type" content="website">
+<meta property="og:title" content="C&#x2F;C++">
+<meta property="og:url" content="http://anqsl.github.io/C-C/index.html">
 <meta property="og:site_name" content="似真似假">
-<meta property="og:description" content="获取 esp32-camera创建好的 ESP32 的工程后，进入工程的 lib 文件夹首先初始化 git：在控制台中执行 git init然后使用 git 命令获取 esp32-camera 1git submodule add -b master https:&#x2F;&#x2F;github.com&#x2F;espressif&#x2F;esp32-camera.git  编译工程首先在 platformio.ini 文件中添">
+<meta property="og:description" content="anqsl的个人网站">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-04-08T06:13:47.000Z">
-<meta property="article:modified_time" content="2021-04-08T06:14:23.873Z">
+<meta property="article:published_time" content="2021-04-08T06:40:11.000Z">
+<meta property="article:modified_time" content="2021-04-08T06:40:11.470Z">
 <meta property="article:author" content="anqsl">
 <meta name="twitter:card" content="summary">
   
@@ -73,10 +73,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-在platformio使用esp32-camera库" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" class="article-date">
-  <time class="dt-published" datetime="2021-04-08T06:13:47.000Z" itemprop="datePublished">2021-04-08</time>
+    <a href="/C-C/index.html" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:40:11.000Z" itemprop="datePublished">2021-04-08</time>
 </a>
     
   </div>
@@ -87,7 +87,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      在platformio使用esp32-camera库
+      C/C++
     </h1>
   
 
@@ -95,21 +95,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="获取-esp32-camera"><a href="#获取-esp32-camera" class="headerlink" title="获取 esp32-camera"></a>获取 esp32-camera</h1><p>创建好的 ESP32 的工程后，进入工程的 lib 文件夹<br>首先初始化 git：<br>在控制台中执行 <strong>git init</strong><br>然后使用 git 命令获取 esp32-camera</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add -b master https:<span class="comment">//github.com/espressif/esp32-camera.git</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="编译工程"><a href="#编译工程" class="headerlink" title="编译工程"></a>编译工程</h1><p>首先在 platformio.ini 文件中添加：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">build_flags =</span><br><span class="line">   -I../lib/esp32-camera</span><br></pre></td></tr></table></figure>
-
-<p>然后在 camera.c 文件中使能所使用的摄像头型号<br>我这使能的摄像头型号是 0v2640</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_OV2640_SUPPORT 1</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h1><p>因为没有使能外接的 RAM,所以在使用过程中，图片的分辨率不能过高。JPEG 格式的还是能够支持 640*480 分辨率的。<br>下次说一下 ESP32 的外接 RAM.</p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" data-id="ckn8iic8t0007w6g81hux6b3x" data-title="在platformio使用esp32-camera库" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/C-C/index.html" data-id="ckn8iic8f0000w6g84xipdxlz" data-title="C/C++" class="article-share-link">Share</a>
       
       
       
@@ -117,25 +107,6 @@
   </div>
   
     
-<nav id="article-nav">
-  
-    <a href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          ESP32的外接RAM
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">QML绘画曲线图</div>
-    </a>
-  
-</nav>
-
   
 </article>
 
