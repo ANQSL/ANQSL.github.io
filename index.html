@@ -73,6 +73,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ESP32的外接RAM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:27:17.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/">ESP32的外接RAM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>ESP32 提供了 520 KB 的片上 SRAM，可以满足大部分需求。但有些场景可能需要更多 RAM，因此 ESP32 另外提供了高达 4 MB 的片外 SPI RAM 存储器以供用户使用。片外 RAM 被添加到内存映射中，在某些范围内与片上 RAM 使用方式相同</p>
+<h1 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h1><p>外接 RAM 连接图</p>
+<pre><code>    PSRAM /CE (pin 1) &gt; ESP32 GPIO 16
+    PSRAM SO (pin 2) &gt; SDO
+    PSRAM SIO[2] (pin 3) &gt; SWP
+    PSRAM VSS (pin 4)  &gt;GND
+    PSRAM SI (pin 5) &gt; SDI
+    PSRAM SCLK (pin 6) &gt; ESP32 GPIO 17
+    PSRAM SIO[3] (pin 7) &gt; SHD
+    PSRAM Vcc (pin 8) &gt; ESP32 VCC_SDIO
+</code></pre>
+<h1 id="外接-RAM-设置"><a href="#外接-RAM-设置" class="headerlink" title="外接 RAM 设置"></a>外接 RAM 设置</h1><h2 id="使能-RAM-Platformio"><a href="#使能-RAM-Platformio" class="headerlink" title="使能 RAM(Platformio)"></a>使能 RAM(Platformio)</h2><p>在 sdkconfig 添加</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_ESP32_SPIRAM_SUPPORT=y</span><br></pre></td></tr></table></figure>
+
+<p>外接 RAM 限制</p>
+<p>1.Flash cache 禁用时（比如，正在写入 flash），片外 RAM 将无法访问；同样，对片外 RAM 的读写操作也将导致 cache 访问异常。出于这个原因，ESP-IDF 不会在片外 RAM 中分配任务堆栈（详见下文）。</p>
+<p>2.片外 RAM 不能用于储存 DMA 描述符，也不能用作 DMA 读写操作的缓冲区 (Buffer)。与 DMA 搭配使用的 Buffer 必须先使用 heap_caps_malloc(size, MALLOC_CAP_DMA) 进行分配，之后可以调用标准 free() 回调释放 Buffer。</p>
+<p>3.片外 RAM 与片外 flash 使用相同的 cache 区域，即频繁在片外 RAM 访问的变量可以像在片上 RAM 中一样快速读取和修改。但访问大块数据时（大于 32 KB），cache 空间可能会不足，访问速度将回落到片外 RAM 访问速度。此外，访问大块数据可以“挤出” flash cache，可能会降低代码执行速度。</p>
+<p>4.片外 RAM 不可用作任务堆栈存储器。因此 xTaskCreate() 及类似函数将始终为堆栈和任务 TCB 分配片上储存器，而 xTaskCreateStatic() 类型的函数将检查传递的 Buffer 是否属于片上存储器。但对于不以任何方式直接或间接调用 ROM 中代码的任务，menuconfig 选项 CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY 将消除 xTaskCreateStatic 中的检查，从而允许任务堆栈存储在外部 RAM 中。但是，不建议使用此方法。</p>
+<p>5.默认情况下，片外 RAM 初始化失败将终止 ESP-IDF 启动。如果想禁用此功能，可启用 CONFIG_SPIRAM_IGNORE_NOTFOUND 配置选项。如果启用 CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY，CONFIG_SPIRAM_IGNORE_NOTFOUND 选项将不能使用，这是因为在链接时，链接器已经向片外 RAM 分配符号。</p>
+<p>6.时钟频率为 80 MHz 时，片外 RAM 须占用 HSPI 总线或 VSPI 总线。请使用 CONFIG_SPIRAM_OCCUPY_SPI_HOST 选择要用的 SPI 主机。</p>
+<h1 id="官方参考连接"><a href="#官方参考连接" class="headerlink" title="官方参考连接"></a>官方参考连接</h1><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/release-v4.1/api-guides/external-ram.html?highlight=ram">https://docs.espressif.com/projects/esp-idf/zh_CN/release-v4.1/api-guides/external-ram.html?highlight=ram</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/" data-id="ckn8i2rte0001crg8bicf0yg7" data-title="ESP32的外接RAM" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-在platformio使用esp32-camera库" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" class="article-date">
@@ -109,7 +169,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" data-id="ckn8hjr0m0005qvg86pcw73rl" data-title="在platformio使用esp32-camera库" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" data-id="ckn8i2rtl0006crg89hgq68vb" data-title="在platformio使用esp32-camera库" class="article-share-link">Share</a>
       
       
       
@@ -157,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/" data-id="ckn8hjr0j0003qvg8dg4352kg" data-title="QML绘画曲线图" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/" data-id="ckn8i2rti0004crg8a2jv38th" data-title="QML绘画曲线图" class="article-share-link">Share</a>
       
       
       
@@ -213,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/" data-id="ckn8hjr0l0004qvg86ljl0njp" data-title="Ubuntu+vscode+openocd+arm-none-eadi" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/" data-id="ckn8i2rtj0005crg8790i0h6k" data-title="Ubuntu+vscode+openocd+arm-none-eadi" class="article-share-link">Share</a>
       
       
       
@@ -256,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" data-id="ckn8hjr0a0000qvg8hcw10awx" data-title="ESP32+VScode简单环境搭建（window" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" data-id="ckn8i2rt80000crg8hlarb5pp" data-title="ESP32+VScode简单环境搭建（window" class="article-share-link">Share</a>
       
       
       
@@ -308,7 +368,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/" data-id="ckn8hjr0g0001qvg882bi0ov5" data-title="ESP8266之HTTP请求" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/" data-id="ckn8i2rtg0002crg8hswj85kq" data-title="ESP8266之HTTP请求" class="article-share-link">Share</a>
       
       
       
@@ -355,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8hjr0i0002qvg8fawff2zn" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8i2rth0003crg88q981w1z" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
       
       
       
@@ -398,6 +458,10 @@
       <ul>
         
           <li>
+            <a href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/">ESP32的外接RAM</a>
+          </li>
+        
+          <li>
             <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/">在platformio使用esp32-camera库</a>
           </li>
         
@@ -411,10 +475,6 @@
         
           <li>
             <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/">ESP8266之HTTP请求</a>
           </li>
         
       </ul>
