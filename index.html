@@ -1,23 +1,517 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>似真似假</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="anqsl的个人网站">
+<meta property="og:type" content="website">
+<meta property="og:title" content="似真似假">
+<meta property="og:url" content="http://anqsl.github.io/index.html">
+<meta property="og:site_name" content="似真似假">
+<meta property="og:description" content="anqsl的个人网站">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="anqsl">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="似真似假" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">似真似假</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/">分类</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://anqsl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-ESP32的外接RAM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:27:17.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/">ESP32的外接RAM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>ESP32 提供了 520 KB 的片上 SRAM，可以满足大部分需求。但有些场景可能需要更多 RAM，因此 ESP32 另外提供了高达 4 MB 的片外 SPI RAM 存储器以供用户使用。片外 RAM 被添加到内存映射中，在某些范围内与片上 RAM 使用方式相同</p>
+<h1 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h1><p>外接 RAM 连接图</p>
+<pre><code>    PSRAM /CE (pin 1) &gt; ESP32 GPIO 16
+    PSRAM SO (pin 2) &gt; SDO
+    PSRAM SIO[2] (pin 3) &gt; SWP
+    PSRAM VSS (pin 4)  &gt;GND
+    PSRAM SI (pin 5) &gt; SDI
+    PSRAM SCLK (pin 6) &gt; ESP32 GPIO 17
+    PSRAM SIO[3] (pin 7) &gt; SHD
+    PSRAM Vcc (pin 8) &gt; ESP32 VCC_SDIO
+</code></pre><h1 id="外接-RAM-设置"><a href="#外接-RAM-设置" class="headerlink" title="外接 RAM 设置"></a>外接 RAM 设置</h1><h2 id="使能-RAM-Platformio"><a href="#使能-RAM-Platformio" class="headerlink" title="使能 RAM(Platformio)"></a>使能 RAM(Platformio)</h2><p>在 sdkconfig 添加</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_ESP32_SPIRAM_SUPPORT=y</span><br></pre></td></tr></table></figure>
+<p>外接 RAM 限制</p>
+<p>1.Flash cache 禁用时（比如，正在写入 flash），片外 RAM 将无法访问；同样，对片外 RAM 的读写操作也将导致 cache 访问异常。出于这个原因，ESP-IDF 不会在片外 RAM 中分配任务堆栈（详见下文）。</p>
+<p>2.片外 RAM 不能用于储存 DMA 描述符，也不能用作 DMA 读写操作的缓冲区 (Buffer)。与 DMA 搭配使用的 Buffer 必须先使用 heap_caps_malloc(size, MALLOC_CAP_DMA) 进行分配，之后可以调用标准 free() 回调释放 Buffer。</p>
+<p>3.片外 RAM 与片外 flash 使用相同的 cache 区域，即频繁在片外 RAM 访问的变量可以像在片上 RAM 中一样快速读取和修改。但访问大块数据时（大于 32 KB），cache 空间可能会不足，访问速度将回落到片外 RAM 访问速度。此外，访问大块数据可以“挤出” flash cache，可能会降低代码执行速度。</p>
+<p>4.片外 RAM 不可用作任务堆栈存储器。因此 xTaskCreate() 及类似函数将始终为堆栈和任务 TCB 分配片上储存器，而 xTaskCreateStatic() 类型的函数将检查传递的 Buffer 是否属于片上存储器。但对于不以任何方式直接或间接调用 ROM 中代码的任务，menuconfig 选项 CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY 将消除 xTaskCreateStatic 中的检查，从而允许任务堆栈存储在外部 RAM 中。但是，不建议使用此方法。</p>
+<p>5.默认情况下，片外 RAM 初始化失败将终止 ESP-IDF 启动。如果想禁用此功能，可启用 CONFIG_SPIRAM_IGNORE_NOTFOUND 配置选项。如果启用 CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY，CONFIG_SPIRAM_IGNORE_NOTFOUND 选项将不能使用，这是因为在链接时，链接器已经向片外 RAM 分配符号。</p>
+<p>6.时钟频率为 80 MHz 时，片外 RAM 须占用 HSPI 总线或 VSPI 总线。请使用 CONFIG_SPIRAM_OCCUPY_SPI_HOST 选择要用的 SPI 主机。</p>
+<h1 id="官方参考连接"><a href="#官方参考连接" class="headerlink" title="官方参考连接"></a>官方参考连接</h1><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/release-v4.1/api-guides/external-ram.html?highlight=ram">https://docs.espressif.com/projects/esp-idf/zh_CN/release-v4.1/api-guides/external-ram.html?highlight=ram</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/" data-id="ckn8q1i6y00013pg8d14w8xym" data-title="ESP32的外接RAM" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-在platformio使用esp32-camera库" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:13:47.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/">在platformio使用esp32-camera库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="获取-esp32-camera"><a href="#获取-esp32-camera" class="headerlink" title="获取 esp32-camera"></a>获取 esp32-camera</h1><p>创建好的 ESP32 的工程后，进入工程的 lib 文件夹<br>首先初始化 git：<br>在控制台中执行 <strong>git init</strong><br>然后使用 git 命令获取 esp32-camera</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add -b master https:<span class="comment">//github.com/espressif/esp32-camera.git</span></span><br></pre></td></tr></table></figure>
+<h1 id="编译工程"><a href="#编译工程" class="headerlink" title="编译工程"></a>编译工程</h1><p>首先在 platformio.ini 文件中添加：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">build_flags =</span><br><span class="line">   -I../lib/esp32-camera</span><br></pre></td></tr></table></figure>
+<p>然后在 camera.c 文件中使能所使用的摄像头型号<br>我这使能的摄像头型号是 0v2640</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_OV2640_SUPPORT 1</span></span><br></pre></td></tr></table></figure>
+<h1 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h1><p>因为没有使能外接的 RAM,所以在使用过程中，图片的分辨率不能过高。JPEG 格式的还是能够支持 640*480 分辨率的。<br>下次说一下 ESP32 的外接 RAM.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/" data-id="ckn8q1i7400063pg807f7eztq" data-title="在platformio使用esp32-camera库" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-QML绘画曲线图" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:12:36.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/">QML绘画曲线图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>一开始我以为 qt 画图表是需要我们自己画。结果就是我直接放弃了，太麻烦了。后来我了解到 Qt 的有一个 Charts 的模块专门用来画图表，但是 Qt 给的例程都是 C++的，但现在我更喜欢 QML 做界面。找了好久才知道怎么做</p>
+<h1 id="Charts-的引用"><a href="#Charts-的引用" class="headerlink" title="Charts 的引用"></a>Charts 的引用</h1><p>Charts 是可选安装，在安装 Qt 时，需要自己选择安装 Charts。当初就是不知道这样然后就 QML 引用这个包时就直接报错。<br>引用包需要在 pro 文件添加：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QT+=charts</span><br></pre></td></tr></table></figure>
+<h1 id="Chartview"><a href="#Chartview" class="headerlink" title="Chartview"></a>Chartview</h1><p>再画图标之前需要用 Chartview</p>
+<h1 id="SplineSeries"><a href="#SplineSeries" class="headerlink" title="SplineSeries"></a>SplineSeries</h1><p>SplineSeries 是用来绘画曲线图的<br>name:图表的名字<br>axisX:设置图表的 X 轴<br>axisY:设置图表的 Y 轴</p>
+<h1 id="ValueAxis"><a href="#ValueAxis" class="headerlink" title="ValueAxis"></a>ValueAxis</h1><p>ValueAxis 用于设置图表的轴长<br>max:轴长最大值<br>min:轴长最小值</p>
+<h1 id="XYPoint"><a href="#XYPoint" class="headerlink" title="XYPoint"></a>XYPoint</h1><p>XYPoint 用于设置图表的点</p>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> QtQuick <span class="number">2.12</span></span><br><span class="line"><span class="keyword">import</span> QtQuick.Window <span class="number">2.12</span></span><br><span class="line"><span class="keyword">import</span> QtCharts <span class="number">2.14</span></span><br><span class="line">Window &#123;</span><br><span class="line">    visible: <span class="literal">true</span></span><br><span class="line">    width: <span class="number">640</span></span><br><span class="line">    height: <span class="number">480</span></span><br><span class="line">    title: qsTr(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line">    ChartView&#123;</span><br><span class="line">        id:cp</span><br><span class="line">        x: <span class="number">130</span></span><br><span class="line">        y: <span class="number">40</span></span><br><span class="line">        width:<span class="number">400</span></span><br><span class="line">        height: <span class="number">400</span></span><br><span class="line">        ValueAxis&#123;</span><br><span class="line">            id:axisx</span><br><span class="line">            max:<span class="number">50</span>;</span><br><span class="line">            min:<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ValueAxis&#123;</span><br><span class="line">            id:axisy</span><br><span class="line">            max:<span class="number">50</span>;</span><br><span class="line">            min:<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        SplineSeries&#123;</span><br><span class="line">            id:sp</span><br><span class="line">            color: Qt.rgba(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">            name:<span class="string">&quot;CPU&quot;</span></span><br><span class="line">            axisX: axisx</span><br><span class="line">            axisY: axisy</span><br><span class="line">            XYPoint&#123;x:<span class="number">0</span>;y:<span class="number">0</span>&#125;</span><br><span class="line">            XYPoint&#123;x:<span class="number">10</span>;y:<span class="number">20</span>&#125;</span><br><span class="line">            XYPoint&#123;x:<span class="number">15</span>;y:<span class="number">30</span>&#125;</span><br><span class="line">            XYPoint&#123;x:<span class="number">20</span>;y:<span class="number">10</span>&#125;</span><br><span class="line">            XYPoint&#123;x:<span class="number">25</span>;y:<span class="number">25</span>&#125;</span><br><span class="line">            XYPoint&#123;x:<span class="number">30</span>;y:<span class="number">15</span>&#125;</span><br><span class="line">            XYPoint&#123;x:<span class="number">35</span>;y:<span class="number">10</span>&#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示<img src="https://img-blog.csdnimg.cn/20201031193725966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center" alt=""></h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/" data-id="ckn8q1i7200043pg81gfzhule" data-title="QML绘画曲线图" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Ubuntu-vscode-openocd-arm-none-eadi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:11:21.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/">Ubuntu+vscode+openocd+arm-none-eadi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="arm-none-eabi"><a href="#arm-none-eabi" class="headerlink" title="arm-none-eabi"></a>arm-none-eabi</h1><h2 id="arm-none-eabi-gcc"><a href="#arm-none-eabi-gcc" class="headerlink" title="arm-none-eabi-gcc"></a>arm-none-eabi-gcc</h2><p>直接使用 apt 命令安装 gcc -arm -none-eabi</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt gcc-arm-none-eabi</span><br></pre></td></tr></table></figure>
+<h2 id="arm-none-eabi-gdb"><a href="#arm-none-eabi-gdb" class="headerlink" title="arm-none-eabi-gdb"></a>arm-none-eabi-gdb</h2><p>需要翻墙下载 deb，下载后直接用命令直接安装即可</p>
+<h1 id="openocd"><a href="#openocd" class="headerlink" title="openocd"></a>openocd</h1><p>直接使用 apt 命令直接安装</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openocd</span><br></pre></td></tr></table></figure>
+<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><p>在 vscode 下载如下三个插件<br><img src="https://img-blog.csdnimg.cn/20201031183550672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="make-flash"><a href="#make-flash" class="headerlink" title="make flash"></a>make flash</h1><p>1.在 Makefile 文件同目录建立 openocd.cfg 文件,并添加如下数据:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source [find interface/stlink-v2.cfg ]</span><br><span class="line">source [find target/stm32f1x.cfg ]</span><br></pre></td></tr></table></figure>
+<p>2.在 Makefile 文件添加下列代码，实现烧录功能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flash:</span><br><span class="line">	openocd -f openocd.cfg -c init -c halt -c <span class="string">&quot;flash write_image erase $(BUILD_DIR)/$(TARGET).elf&quot;</span> -c reset -c shutdown</span><br></pre></td></tr></table></figure>
+<h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p>新建 launch.json 并添加如下数据:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Use IntelliSense to learn about possible attributes.</span></span><br><span class="line">    <span class="comment">// Hover to view descriptions of existing attributes.</span></span><br><span class="line">    <span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="string">&quot;version&quot;</span>: <span class="string">&quot;0.2.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Cortex Debug&quot;</span>,</span><br><span class="line">            <span class="string">&quot;cwd&quot;</span>: <span class="string">&quot;$&#123;workspaceRoot&#125;&quot;</span>,</span><br><span class="line">            <span class="comment">//elf文件位置</span></span><br><span class="line">            <span class="string">&quot;executable&quot;</span>: <span class="string">&quot;./build/usart.elf&quot;</span>,</span><br><span class="line">            <span class="string">&quot;request&quot;</span>: <span class="string">&quot;launch&quot;</span>,</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;cortex-debug&quot;</span>,</span><br><span class="line">            <span class="string">&quot;servertype&quot;</span>: <span class="string">&quot;openocd&quot;</span>,</span><br><span class="line">            <span class="string">&quot;configFiles&quot;</span>: [</span><br><span class="line"></span><br><span class="line">                <span class="string">&quot;openocd.cfg&quot;</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="最后显示"><a href="#最后显示" class="headerlink" title="最后显示"></a>最后显示</h1><p><img src="https://img-blog.csdnimg.cn/20201031184000401.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/" data-id="ckn8q1i7300053pg8b9bshpo9" data-title="Ubuntu+vscode+openocd+arm-none-eadi" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ESP32-VScode简单环境搭建（window" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:07:33.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>首先下载 git 2.21.0 版本：<a target="_blank" rel="noopener" href="https://npm.taobao.org/mirrors/git-for-windows/">https://npm.taobao.org/mirrors/git-for-windows/</a><br>然后下载 ESP-IDF 工具安装器：<a target="_blank" rel="noopener" href="https://dl.espressif.com/dl/esp-idf-tools-setup-2.3.exe">https://dl.espressif.com/dl/esp-idf-tools-setup-2.3.exe</a></p>
+<h1 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h1><p>安装页面弹出后一直点击 next<br>选择安装的目录<br><img src="https://img-blog.csdnimg.cn/20200730171158661.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="选择安装的目录"><br>一直点击 next 直到安装</p>
+<h1 id="安装-ESP-IDF-工具安装器"><a href="#安装-ESP-IDF-工具安装器" class="headerlink" title="安装 ESP-IDF 工具安装器"></a>安装 ESP-IDF 工具安装器</h1><p>1.同意这个协议<br><img src="https://img-blog.csdnimg.cn/20200730171512179.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 2.如果安装了 python 则选择安装的 python，如果没有安装则就安装 python3.7<br><img src="https://img-blog.csdnimg.cn/20200730171756107.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 3.选择刚刚安装 git 的路径<br><img src="https://img-blog.csdnimg.cn/20200730172222152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 4.选择下载 esp-idf<br><img src="https://img-blog.csdnimg.cn/20200730172333186.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 5.选择 esp-idf 下载版本和下载的路径<br><img src="https://img-blog.csdnimg.cn/20200730172418937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 6.选择 ESP-IDF Tools 安装的路径<br><img src="https://img-blog.csdnimg.cn/20200730172523467.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 7.然后一直点击 next 知道 install</p>
+<h1 id="vscode-配置"><a href="#vscode-配置" class="headerlink" title="vscode 配置"></a>vscode 配置</h1><p>1.下载安装 espressif idf 工具<br><img src="https://img-blog.csdnimg.cn/20200730172812261.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 2.<br><img src="https://img-blog.csdnimg.cn/2020073017290414.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 3.自动选择安装的 python 路径<br><img src="https://img-blog.csdnimg.cn/2020073017300993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4 选择 ESP-IDF Tools 下载的 esp-idf<br><img src="https://img-blog.csdnimg.cn/20200730173114842.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200730173215496.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 5.<img src="https://img-blog.csdnimg.cn/20200730173247381.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 6.点击下载<img src="https://img-blog.csdnimg.cn/20200730173616247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>点击 get to next step<br><img src="https://img-blog.csdnimg.cn/20200730175339556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> 7.<img src="https://img-blog.csdnimg.cn/2020073017555696.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200730175625205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>git 如果不想下载也可以同过 esp-idf tools 一起下载，只是速度较慢。其实也同过 vscode 的 espressif 工具一起下载，只是下载速度有点感人</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" data-id="ckn8q1i6s00003pg8ba7m49xg" data-title="ESP32+VScode简单环境搭建（window" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ESP8266之HTTP请求" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:05:50.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/">ESP8266之HTTP请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>HTTP 需要引用两个头文件：ESP8266Client.h，ESP8266HTTPClient.h。<br>ESP8266 根据网上的 API 使用 HTTP 请求来获取自己想要的信息，例如天气、阿里云的人工智能。</p>
+<h1 id="GET-请求"><a href="#GET-请求" class="headerlink" title="GET 请求"></a>GET 请求</h1><p>定义 WIFI 客户端和 HTTP 客户端，将将 HTTP 客户端开启</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WiFiClient client;<span class="comment">//定义WiFi客户端</span></span><br><span class="line">HTTPClient http;<span class="comment">//定义HTTP客户端</span></span><br><span class="line"><span class="comment">//第一个参数为WiFi客户端，第二个传输为请求的网址</span></span><br><span class="line">http.<span class="built_in">begin</span>(client, <span class="string">&quot;http://www.xbiquge.la/&quot;</span>))<span class="comment">//开启HTTP客户端，</span></span><br></pre></td></tr></table></figure>
+<p>根据返回的状态码确定是否请求成功,然后获取返回的数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> code=http.<span class="built_in">GET</span>();</span><br><span class="line"><span class="keyword">if</span>(code==HTPP_CODE_OK)<span class="comment">//请求成功</span></span><br><span class="line">&#123;</span><br><span class="line">	String html=http.<span class="built_in">getString</span>();<span class="comment">//获取网址返回的数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span><span class="comment">//请求失败</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line">http.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
+<h1 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a>POST 请求</h1><p>定义 WIFI 客户端和 HTTP 客户端，将将 HTTP 客户端开启，并且添加请求头</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WiFiClient client;<span class="comment">//定义WiFi客户端</span></span><br><span class="line">HTTPClient http;<span class="comment">//定义HTTP客户端</span></span><br><span class="line"><span class="comment">//第一个参数为WiFi客户端，第二个传输为请求的网址</span></span><br><span class="line">http.<span class="built_in">begin</span>(client, <span class="string">&quot;&quot;</span>))<span class="comment">//开启HTTP客户端，</span></span><br><span class="line">http.<span class="built_in">addHeader</span>(<span class="string">&quot;&quot;</span>Content-Type<span class="string">&quot;, &quot;</span>text/html<span class="string">&quot;&quot;</span>);<span class="comment">//添加请求头</span></span><br></pre></td></tr></table></figure>
+<p>根据返回的状态码确定是否请求成功,然后获取返回的数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> code=http.<span class="built_in">POST</span>(<span class="string">&quot;&quot;</span>);<span class="comment">//上传的数据</span></span><br><span class="line"><span class="keyword">if</span>(code==HTPP_CODE_OK)<span class="comment">//请求成功</span></span><br><span class="line">&#123;</span><br><span class="line">	String html=http.<span class="built_in">getString</span>();<span class="comment">//获取网址返回的数据</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span><span class="comment">//请求失败</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line">http.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
+<p>POST 请求请求头必须有，GET 请求可以不需要</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E4%B9%8BHTTP%E8%AF%B7%E6%B1%82/" data-id="ckn8q1i7000023pg8gqlx78db" data-title="ESP8266之HTTP请求" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ESP8266实现的web页面开门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:02:13.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/">ESP8266实现的web页面开门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><h2 id="为什么直接使用-esp8266"><a href="#为什么直接使用-esp8266" class="headerlink" title="为什么直接使用 esp8266"></a>为什么直接使用 esp8266</h2><p>esp8266 是一种 WiFi 模块，原来可以同过 AT 指令建立 TCP 连接进行远程操作。但是这样导致需要另外的 51 或者 32 单片机进行 IO 控制，esp8266 本身也是一块单片机，直接使用 esp8266 的 IO 口无疑是方便很多了。</p>
+<h2 id="esp8266-的实现"><a href="#esp8266-的实现" class="headerlink" title="esp8266 的实现"></a>esp8266 的实现</h2><p>注册 WiFi 连接事件，在 WiFi 连接是获取客户端的 mac 地址，将 WiFi 的连接数目设置为一，防止 mac 被新的 mac 覆盖，定义一个常量为你允许能开门的 mac 地址用户。</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="WIFI-设置"><a href="#WIFI-设置" class="headerlink" title="WIFI 设置"></a>WIFI 设置</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WiFi.<span class="built_in">mode</span>(WIFI_AP);<span class="comment">//设置为 AP 模式</span></span><br><span class="line">WiFi.<span class="built_in">softAPConfig</span>(IP,IP,<span class="built_in">IPAddress</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0</span>));</span><br><span class="line">WiFi.<span class="built_in">softAP</span>(ssid,password,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>);<span class="comment">//配置 wifi 名字和密码设置信道为 1，不隐藏 SSID,连接数目为 1</span></span><br></pre></td></tr></table></figure>
+<h2 id="WIF-连接事件"><a href="#WIF-连接事件" class="headerlink" title="WIF 连接事件"></a>WIF 连接事件</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WiFi.<span class="built_in">onSoftAPModeStationConnected</span>(&amp;onStationConnected);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">onStationConnected</span><span class="params">(<span class="keyword">const</span> WiFiEventSoftAPModeStationConnected&amp; evt)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">Mac=<span class="built_in">macToString</span>(evt.mac);<span class="comment">//获取连接的 mac 地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="域名设置"><a href="#域名设置" class="headerlink" title="域名设置"></a>域名设置</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dnsserver.<span class="built_in">setTTL</span>(<span class="number">300</span>);<span class="comment">//设置超时</span></span><br><span class="line">dnsserver.<span class="built_in">setErrorReplyCode</span>(DNSReplyCode::ServerFailure);</span><br><span class="line">dnsserver.<span class="built_in">start</span>(DNS_Port,<span class="string">&quot;www.sixgod.com&quot;</span>,IP);<span class="comment">//设置域名IP为esp8266的IP地址</span></span><br></pre></td></tr></table></figure>
+<h2 id="web-服务器"><a href="#web-服务器" class="headerlink" title="web 服务器"></a>web 服务器</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">webserver.<span class="built_in">on</span>(<span class="string">&quot;/3220&quot;</span>,[]()<span class="comment">//设置 webrequest 请求后处理事件</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">check_root</span>())<span class="comment">//判断是否为允许用户</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">setopen</span>();</span><br><span class="line">webserver.<span class="built_in">send</span>(<span class="number">200</span>,<span class="string">&quot;text/html&quot;</span>,html);<span class="comment">//发送 html 文件给客户端</span></span><br><span class="line"><span class="comment">//执行开门指令</span></span><br><span class="line">myservo.<span class="built_in">write</span>(<span class="number">90</span>);</span><br><span class="line"><span class="built_in">delay</span>(<span class="number">1500</span>);</span><br><span class="line">myservo.<span class="built_in">write</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//返回 404</span></span><br><span class="line">webserver.<span class="built_in">send</span>(<span class="number">404</span>,<span class="string">&quot;text/plain&quot;</span>,<span class="string">&quot;404&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">webserver.<span class="built_in">begin</span>();<span class="comment">//开启服务器`</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/ESP8266%E5%AE%9E%E7%8E%B0%E7%9A%84web%E9%A1%B5%E9%9D%A2%E5%BC%80%E9%97%A8/" data-id="ckn8q1i7100033pg8c0v63hx6" data-title="ESP8266实现的web页面开门" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/">ESP32的外接RAM</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/">在platformio使用esp32-camera库</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/">QML绘画曲线图</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/">Ubuntu+vscode+openocd+arm-none-eadi</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 anqsl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/" class="mobile-nav-link">分类</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

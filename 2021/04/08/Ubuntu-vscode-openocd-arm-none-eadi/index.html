@@ -1,37 +1,253 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Ubuntu+vscode+openocd+arm-none-eadi | 似真似假</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="arm-none-eabiarm-none-eabi-gcc直接使用 apt 命令安装 gcc -arm -none-eabi 1apt gcc-arm-none-eabi arm-none-eabi-gdb需要翻墙下载 deb，下载后直接用命令直接安装即可 openocd直接使用 apt 命令直接安装 1sudo apt install openocd vscode在 vscode 下载如下三个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu+vscode+openocd+arm-none-eadi">
+<meta property="og:url" content="http://anqsl.github.io/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/index.html">
+<meta property="og:site_name" content="似真似假">
+<meta property="og:description" content="arm-none-eabiarm-none-eabi-gcc直接使用 apt 命令安装 gcc -arm -none-eabi 1apt gcc-arm-none-eabi arm-none-eabi-gdb需要翻墙下载 deb，下载后直接用命令直接安装即可 openocd直接使用 apt 命令直接安装 1sudo apt install openocd vscode在 vscode 下载如下三个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201031183550672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201031184000401.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2021-04-08T06:11:21.000Z">
+<meta property="article:modified_time" content="2021-04-08T08:06:22.458Z">
+<meta property="article:author" content="anqsl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20201031183550672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center">
+  
+    <link rel="alternate" href="/atom.xml" title="似真似假" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">似真似假</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/">分类</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://anqsl.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Ubuntu-vscode-openocd-arm-none-eadi" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/" class="article-date">
+  <time class="dt-published" datetime="2021-04-08T06:11:21.000Z" itemprop="datePublished">2021-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Ubuntu+vscode+openocd+arm-none-eadi
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="arm-none-eabi"><a href="#arm-none-eabi" class="headerlink" title="arm-none-eabi"></a>arm-none-eabi</h1><h2 id="arm-none-eabi-gcc"><a href="#arm-none-eabi-gcc" class="headerlink" title="arm-none-eabi-gcc"></a>arm-none-eabi-gcc</h2><p>直接使用 apt 命令安装 gcc -arm -none-eabi</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt gcc-arm-none-eabi</span><br></pre></td></tr></table></figure>
+<h2 id="arm-none-eabi-gdb"><a href="#arm-none-eabi-gdb" class="headerlink" title="arm-none-eabi-gdb"></a>arm-none-eabi-gdb</h2><p>需要翻墙下载 deb，下载后直接用命令直接安装即可</p>
+<h1 id="openocd"><a href="#openocd" class="headerlink" title="openocd"></a>openocd</h1><p>直接使用 apt 命令直接安装</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install openocd</span><br></pre></td></tr></table></figure>
+<h1 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h1><p>在 vscode 下载如下三个插件<br><img src="https://img-blog.csdnimg.cn/20201031183550672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="make-flash"><a href="#make-flash" class="headerlink" title="make flash"></a>make flash</h1><p>1.在 Makefile 文件同目录建立 openocd.cfg 文件,并添加如下数据:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source [find interface/stlink-v2.cfg ]</span><br><span class="line">source [find target/stm32f1x.cfg ]</span><br></pre></td></tr></table></figure>
+<p>2.在 Makefile 文件添加下列代码，实现烧录功能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flash:</span><br><span class="line">	openocd -f openocd.cfg -c init -c halt -c <span class="string">&quot;flash write_image erase $(BUILD_DIR)/$(TARGET).elf&quot;</span> -c reset -c shutdown</span><br></pre></td></tr></table></figure>
+<h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p>新建 launch.json 并添加如下数据:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Use IntelliSense to learn about possible attributes.</span></span><br><span class="line">    <span class="comment">// Hover to view descriptions of existing attributes.</span></span><br><span class="line">    <span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="string">&quot;version&quot;</span>: <span class="string">&quot;0.2.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Cortex Debug&quot;</span>,</span><br><span class="line">            <span class="string">&quot;cwd&quot;</span>: <span class="string">&quot;$&#123;workspaceRoot&#125;&quot;</span>,</span><br><span class="line">            <span class="comment">//elf文件位置</span></span><br><span class="line">            <span class="string">&quot;executable&quot;</span>: <span class="string">&quot;./build/usart.elf&quot;</span>,</span><br><span class="line">            <span class="string">&quot;request&quot;</span>: <span class="string">&quot;launch&quot;</span>,</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;cortex-debug&quot;</span>,</span><br><span class="line">            <span class="string">&quot;servertype&quot;</span>: <span class="string">&quot;openocd&quot;</span>,</span><br><span class="line">            <span class="string">&quot;configFiles&quot;</span>: [</span><br><span class="line"></span><br><span class="line">                <span class="string">&quot;openocd.cfg&quot;</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="最后显示"><a href="#最后显示" class="headerlink" title="最后显示"></a>最后显示</h1><p><img src="https://img-blog.csdnimg.cn/20201031184000401.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0NjkwNDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://anqsl.github.io/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/" data-id="ckn8q1i7300053pg8b9bshpo9" data-title="Ubuntu+vscode+openocd+arm-none-eadi" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          QML绘画曲线图
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ESP32+VScode简单环境搭建（window</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+</section>
+        
+          <aside id="sidebar">
+  
+    
 
-{% block page_class %}page-post-detail{% endblock %}
+  
+    
 
-
-{% block content %}
-
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
-
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
     </div>
   </div>
 
-{% endblock %}
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/04/08/ESP32%E7%9A%84%E5%A4%96%E6%8E%A5RAM/">ESP32的外接RAM</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/%E5%9C%A8platformio%E4%BD%BF%E7%94%A8esp32-camera%E5%BA%93/">在platformio使用esp32-camera库</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/QML%E7%BB%98%E7%94%BB%E6%9B%B2%E7%BA%BF%E5%9B%BE/">QML绘画曲线图</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/Ubuntu-vscode-openocd-arm-none-eadi/">Ubuntu+vscode+openocd+arm-none-eadi</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/08/ESP32-VScode%E7%AE%80%E5%8D%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%88window/">ESP32+VScode简单环境搭建（window</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 anqsl<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/" class="mobile-nav-link">分类</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
